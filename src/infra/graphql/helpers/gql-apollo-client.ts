@@ -5,7 +5,10 @@ export class GQLApolloClient {
 
   constructor () {
     this.client = new ApolloClient({
-      uri: 'https://api-sa-east-1.hygraph.com/v2/cl8q48hjp26lq01tcdhby5bbg/master',
+      uri: import.meta.env.GRAPHCMS_CONTENT_API,
+      headers: {
+        'Authorization': `Bearer ${import.meta.env.GRAPHCMS_AUTH_TOKEN}`
+      },
       cache: new InMemoryCache()
     })
   }

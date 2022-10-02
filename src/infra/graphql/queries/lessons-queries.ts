@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
 export const GET_LESSONS_QUERY = gql`
-  query GetLessons {
+  query {
     lessons(orderBy: available_at_ASC, stage: PUBLISHED) {
       id
       lesson_type
@@ -14,7 +14,7 @@ export const GET_LESSONS_QUERY = gql`
 
 export const GET_LESSON_BY_SLUG_QUERY = gql`
   query GetLessonBySlug ($slug: String){
-    lessons(where: (slug: $slug)) {
+    lessons(where: {slug: $slug}) {
       title
       video_id
       description
