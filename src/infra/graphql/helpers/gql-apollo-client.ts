@@ -5,7 +5,7 @@ export class GQLApolloClient {
 
   constructor () {
     this.client = new ApolloClient({
-      uri: import.meta.env.GRAPHCMS_CONTENT_API,
+      uri: import.meta.env.VITE_API_GRAPHCMS_CONTENT_API,
       headers: {
         'Authorization': `Bearer ${import.meta.env.GRAPHCMS_AUTH_TOKEN}`
       },

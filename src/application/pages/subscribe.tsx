@@ -1,6 +1,22 @@
 import { Logo } from '@/application/components'
+import { GQLInterface } from '@/domain/protocols'
+import { makeGQLAdapter } from '@/main/factories/graphql'
+import { FormEvent, useState } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 export const Subscribe = () => {
+  const [formState, setFormState] = useState({ name: '', email: '', loading: false })
+
+  const navigate = useNavigate()
+  const gqlAdapter = makeGQLAdapter()
+
+  const handleSubscribe = async (event: FormEvent) => {
+    event.preventDefault()
+    const { loading } = await gqlAdapter.createSubscriber(formState.name, formState.email)
+    setFormState({ ...formState, loading })
+    navigate('/')
+  }
+
   return (
     <div className='absolute w-full bg-blur bg-no-repeat min-h-screen flex flex-col items-center'>
       <div className='w-full max-w-[1100px] flex items-center justify-between mt-20 mx-auto'>
@@ -15,24 +31,27 @@ export const Subscribe = () => {
         </div>
         <div className='p-8 bg-gray-700 border border-gray-500 rounded'>
           <strong className='text-2xl mb-6 block'>Inscreva-se gratuitamente</strong>
-          <form action='' className='flex flex-col gap-2 w-full'>
+          <form onSubmit={handleSubscribe} className='flex flex-col gap-2 w-full'>
             <input 
               id='name' 
               type='text' 
               name='name' 
               placeholder='Digite seu nome completo'
               className='bg-gray-900 rounded px-5 h-14'
+              onChange={event => setFormState({ ...formState, name: event.target.value })}
             />
             <input 
               id='email' 
               type='email' 
               name='email' 
               placeholder='Digite seu e-mail'
-              className='bg-gray-900 rounded px-5 h-14' 
+              className='bg-gray-900 rounded px-5 h-14'
+              onChange={event => setFormState({ ...formState, email: event.target.value })}
             />
             <button 
-              type='submit' 
-              className='mt-4 bg-blue-500 uppercase py-4 rounded font-bold text-sm hover:bg-blue-700 hover:text-zinc-300 transition-colors'
+              type='submit'
+              disabled={formState.loading}
+              className='disabled:opacity-50 mt-4 bg-blue-500 uppercase py-4 rounded font-bold text-sm hover:bg-blue-700 hover:text-zinc-300 transition-colors'
             >
               Garantir minha vaga
             </button>

@@ -1,5 +1,6 @@
 import { Event, Subscribe } from '@/application/pages'
 import { Routes, Route } from 'react-router-dom'
+import { makeGQLAdapter } from '@/main/factories/graphql'
 
 export const PublicRoutes = () => {
   return (
